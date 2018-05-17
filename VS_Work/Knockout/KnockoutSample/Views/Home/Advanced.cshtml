@@ -1,0 +1,22 @@
+﻿@model KnockoutSample.Models.ClaPerson
+
+@{
+    ViewBag.Title = "Advanced";
+}
+
+<h2>Advanced</h2>
+
+<h2>Hello <span data-bind="text: getName()"></span></h2>
+@section Scripts {
+    <script>
+        function ViewModel(firstName, lastName) {
+            var self = this;
+            self.name = firstName + ' ' + lastName;
+            self.getName = function () {
+                return self.name;
+            };
+        };
+        var viewModel = new ViewModel('@Model.FirstName', '@Model.LastName');
+        ko.applyBindings(viewModel); 
+        </script>
+    } 
