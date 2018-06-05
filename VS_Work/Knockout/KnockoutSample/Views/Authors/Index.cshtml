@@ -1,0 +1,87 @@
+﻿@using KnockoutSample.Models
+@model IEnumerable<KnockoutSample.Models.Author>
+
+@{
+    ViewBag.Title = "Authors";
+    var queryOptions = (QueryOptions)ViewBag.QueryOptions;
+}
+
+<h2>Authors</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.BuildSortableLink("First Name", "Index", "FirstName"
+        , queryOptions)
+            </th>
+            <th>
+                @Html.BuildSortableLink("Last Name", "Index", "LastName"
+        , queryOptions)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: authors">
+        <tr>
+            <td data-bind="text: FirstName"></td>
+            <td data-bind="text: LastName"></td>
+            <td>
+                <a data-bind="attr: { href: '@Url.Action("Details")/' + Id }"
+                   class="btn btn-info">Details</a>
+                <a data-bind="attr: { href: '@Url.Action("Edit")/' + Id }"
+                   class="btn btn-primary">Edit</a>
+                <a data-bind="attr: { href: '@Url.Action("Delete")/' + Id }"
+                   class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+@section Scripts {
+    <script>
+function ViewModel(authors) {
+var self = this;
+self.authors = authors;
+};
+var viewModel = new ViewModel(@Html.HtmlConvertToJson(Model));
+ko.applyBindings(viewModel);
+    </script>
+}
+
+@*<table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Biography)
+            </th>
+            <th></th>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Biography)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            </td>
+        </tr>
+    }
+
+    </table>*@

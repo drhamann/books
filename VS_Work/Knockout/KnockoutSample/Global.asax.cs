@@ -1,4 +1,6 @@
-﻿using System.Web;
+﻿using KnockoutSample.DAL;
+using System.Data.Entity;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -15,6 +17,10 @@ namespace KnockoutSample
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            var bookContext = new BookContext();
+            Database.SetInitializer(new BookInitializer());
+            bookContext.Database.Initialize(true);
         }
     }
 }
