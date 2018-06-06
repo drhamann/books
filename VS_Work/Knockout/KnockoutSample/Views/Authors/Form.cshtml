@@ -1,0 +1,81 @@
+﻿@model KnockoutSample.Models.Author
+
+@{
+    var isCreating = Model.Id == 0;
+    ViewBag.Title = (isCreating)  ? "Create" : "Edit";
+}
+
+
+<div data-bind="visible: !saveCompleted()">
+
+    <h2>@ViewBag.Title</h2>
+
+    @using (Html.BeginForm("Create", "Authors", FormMethod.Post, new { data_bind = "submit: validateAndSave" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h4>Author</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes =
+                   new { @class = "form-control", data_bind = "value: author.firstName" } })
+                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes =
+         new { @class = "form-control", data_bind = "value: author.lastName" } })
+                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Biography, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Biography, new { htmlAttributes =
+          new { @class = "form-control", data_bind = "value: author.biography" } })
+                    @Html.ValidationMessageFor(model => model.Biography, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10" data-bind="visible: !sending()">
+
+                    <input type="submit" value="@if (isCreating) {
+                        @Html.Raw("Create") 
+                    } else {
+                        @Html.Raw("Update") } " class="btn btn-default" />
+
+</div>
+
+<div class="progress" data-bind="visible: sending">
+                    <div class="progress-bar progress-bar-info progress-bar-striped active"
+                         role="progressbar" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"
+                         style="width: 100%">
+                        <span class="sr-only"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval",
+    "/Scripts/ViewModels/AuthorFormViewModel.js")
+    <script>
+        var viewModel = new AuthorFormViewModel(@Html.HtmlConvertToJson(Model));
+        ko.applyBindings(viewModel);
+    </script>
+}

@@ -15,11 +15,15 @@
     <thead>
         <tr>
             <th>
-                @Html.BuildSortableLink("First Name", "Index", "FirstName"
+                @Html.BuildSortableLink("First Name", "Index", "firstName"
         , queryOptions)
             </th>
             <th>
-                @Html.BuildSortableLink("Last Name", "Index", "LastName"
+                @Html.BuildSortableLink("Last Name", "Index", "lastName"
+        , queryOptions)
+            </th>
+            <th>
+                @Html.BuildSortableLink("Biography", "Index", "biography"
         , queryOptions)
             </th>
             <th>Actions</th>
@@ -27,19 +31,21 @@
     </thead>
     <tbody data-bind="foreach: authors">
         <tr>
-            <td data-bind="text: FirstName"></td>
-            <td data-bind="text: LastName"></td>
+            <td data-bind="text: firstName"></td>
+            <td data-bind="text: lastName"></td>
+            <td data-bind="text: biography"></td>
             <td>
-                <a data-bind="attr: { href: '@Url.Action("Details")/' + Id }"
+                <a data-bind="attr: { href: '@Url.Action("Details")/' + id }"
                    class="btn btn-info">Details</a>
-                <a data-bind="attr: { href: '@Url.Action("Edit")/' + Id }"
+                <a data-bind="attr: { href: '@Url.Action("Edit")/' + id }"
                    class="btn btn-primary">Edit</a>
-                <a data-bind="attr: { href: '@Url.Action("Delete")/' + Id }"
+                <a data-bind="attr: { href: '@Url.Action("Delete")/' + id }"
                    class="btn btn-danger">Delete</a>
             </td>
         </tr>
     </tbody>
 </table>
+@Html.BuildNextPreviousLinks(queryOptions, "Index")
 @section Scripts {
     <script>
 function ViewModel(authors) {

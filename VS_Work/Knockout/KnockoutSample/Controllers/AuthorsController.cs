@@ -20,7 +20,13 @@ namespace KnockoutSample.Controllers
         // GET: Authors
         public ActionResult Index([Form] QueryOptions queryOptions)
         {
+            if(queryOptions.CurrentPage == 0)
+            {
+                queryOptions.CurrentPage = 1;
+            }
             var start = (queryOptions.CurrentPage - 1) * queryOptions.PageSize;
+
+            var authorsList = db.Authors.ToList();
             var authors = db.Authors.
             OrderBy(queryOptions.Sort).
             Skip(start).
@@ -28,7 +34,10 @@ namespace KnockoutSample.Controllers
             queryOptions.TotalPages =
             (int)Math.Ceiling((double)db.Authors.Count() / queryOptions.PageSize);
             ViewBag.QueryOptions = queryOptions;
-            return View(authors.ToList());
+
+
+            authorsList = authors.ToList();
+            return View(authorsList);
         }
 
         // GET: Authors/Details/5
@@ -49,7 +58,7 @@ namespace KnockoutSample.Controllers
         // GET: Authors/Create
         public ActionResult Create()
         {
-            return View();
+            return View("Form", new Author());
         }
 
         // POST: Authors/Create
@@ -81,7 +90,7 @@ namespace KnockoutSample.Controllers
             {
                 return HttpNotFound();
             }
-            return View(author);
+            return View("Form", author);
         }
 
         // POST: Authors/Edit/5

@@ -12,7 +12,8 @@ public static class HtmlHelperExtensions
             ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             Formatting = Formatting.Indented
         };
-        return new HtmlString(JsonConvert.SerializeObject(model, settings));
+        var Model = new HtmlString(JsonConvert.SerializeObject(model, settings));
+        return Model;
     }
 
     public static MvcHtmlString BuildSortableLink(this HtmlHelper htmlHelper,
